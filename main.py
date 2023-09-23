@@ -1,5 +1,5 @@
 import numpy as np
 import tensorflow as tf
-import keras
+from tensorflow import keras
 
 print ("Hello world")
