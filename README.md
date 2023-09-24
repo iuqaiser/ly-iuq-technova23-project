@@ -1,2 +1,2 @@
 # ly-iuq-technova23-project
-Object recognition app for the visually impaired
+Object recognition app for people with visual impairments
