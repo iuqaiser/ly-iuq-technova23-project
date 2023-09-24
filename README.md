@@ -3,8 +3,7 @@
 **Inspiration** 💡 \
 We wanted to try working with computer vision, but also wanted to develop a tool to aid a marginalized community of people. Object detection projects are the norm for computer vision projects but we added speech commands/text-to-speech functionality for greater accessibility.
 
-**What it does** ✨ \
-
+**What it does** ✨
 Once started and after being voice-activated by the user, Guiding Light uses your webcam to capture real-time views of the area around you, then it both visually and verbally identifies what objects are in your proximity. Users are supposed to point the camera in front of them as they walk in order to detect obstacles.
 
 **How we built it** 💻 \ 
