@@ -1,4 +1,4 @@
-#**Guiding Light - A new way to interact with your world**
+#Guiding Light - A new way to interact with your world
 
 **Inspiration** 💡 -
 We wanted to try working with computer vision, but also wanted to develop a tool to aid a marginalized community of people. Object detection projects are the norm for computer vision projects but we added speech commands/text-to-speech functionality for greater accessibility.
