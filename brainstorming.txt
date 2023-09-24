@@ -43,6 +43,21 @@
                 currcolor = "Red"
             else:
                 currcolor = "Unknown"
+            
+            count= count + 1
+            count2 = count2 + 1
+            if (count >= 20):        
+                engine.say( obj_name + "in frame")
+                #engine.say("Average color: " + currcolor)
+                engine.runAndWait()
+                count = 0
+                
+            
+            if (count2 >= 20):        
+                #engine.say(obj_name + "in front of you")
+                engine.say("Average environment color: " + currolor)
+                engine.runAndWait()
+                count2 = 0
             '''
             '''
             hsv_frame = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
@@ -125,3 +140,32 @@ elif (r_mean > g_mean and r_mean > b_mean):
 else:
     currcolor = "Unknown"
 """
+            b = img[:, :, :1]
+            g = img[:, :, 1:2]
+            r = img[:, :, 2:]
+            b_mean = np.mean(b)
+            g_mean = np.mean(g)
+            r_mean = np.mean(r)
+            if (b_mean > g_mean and b_mean > r_mean):
+                currcolor = "Blue"
+            elif (g_mean > r_mean and g_mean > b_mean):
+                currcolor = "Green"
+            elif (r_mean > g_mean and r_mean > b_mean):
+                currcolor = "Red"
+            else:
+                currcolor = "Unknown"
+            
+            count= count + 1
+            count2 = count2 + 1
+            if (count >= 20):        
+                engine.say( obj_name + "in frame")
+                #engine.say("Average color: " + currcolor)
+                engine.runAndWait()
+                count = 0
+                
+            
+            if (count2 >= 20):        
+                #engine.say(obj_name + "in front of you")
+                engine.say("Average environment color: " + currolor)
+                engine.runAndWait()
+                count2 = 0

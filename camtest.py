@@ -17,7 +17,7 @@ model = YOLO("runs/detect/train/weights/best.pt")
 engine = pyttsx3.init()
 voices = engine.getProperty('voices')
 engine.setProperty('voice', voices[1].id)
-engine.setProperty('rate', 250)
+engine.setProperty('rate', 200)
 
 
 recognizer = sr.Recognizer()
@@ -56,6 +56,9 @@ def voice_command_response(text):
 def main():
     count = 0
     count2 = 10
+    announce = ''
+    announce_width = 0
+    
 
     engine.say("Hey, are you ready to start?")
     engine.runAndWait()
@@ -73,9 +76,8 @@ def main():
         while True:
             success, img = cap.read()
             results = model(img, stream=True, verbose=False)
-            
-            
-            #cv2.imshow('Webcam', img)
+            height, width, success = img.shape
+
             # coordinates
             for r in results:
                 
@@ -111,13 +113,40 @@ def main():
 
                     cv2.putText(img, obj_name+ " "+ str(int(confidence*100))+"%", org, font, fontScale, color, thickness)
 
+                    dist = abs(abs((x2-x1))-int(width/2))
+                    if(dist >= announce_width):
+                        announce_width = dist
+                        announce = obj_name
+
+            b = img[:, :, :1]
+            g = img[:, :, 1:2]
+            r = img[:, :, 2:]
+            b_mean = np.mean(b)
+            g_mean = np.mean(g)
+            r_mean = np.mean(r)
+            if (b_mean > g_mean and b_mean > r_mean):
+                currcolor = "Blue"
+            elif (g_mean > r_mean and g_mean > b_mean):
+                currcolor = "Green"
+            elif (r_mean > g_mean and r_mean > b_mean):
+                currcolor = "Red"
+            else:
+                currcolor = "Unknown"
+            
             count= count + 1
-            #count2 = count2 + 1
+            count2 = count2 + 1
             if (count >= 20):        
-                engine.say( obj_name + "in frame")
-                #engine.say("Average color: " + currcolor)
+                engine.say( announce + "in frame")
+                announce_width = 0
                 engine.runAndWait()
                 count = 0
+                
+            
+            if (count2 >= 20):        
+                #engine.say(obj_name + "in front of you")
+                engine.say("Average environment color: " + currcolor)
+                engine.runAndWait()
+                count2 = 0
                 
             cv2.imshow('Webcam', img)
             if cv2.waitKey(1) == 27:
@@ -128,6 +157,8 @@ def main():
         cv2.destroyAllWindows()
     else:
         print("cannot run")
+
+
 
 if __name__ == "__main__":
     main()
