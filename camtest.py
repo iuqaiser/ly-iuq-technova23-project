@@ -12,10 +12,6 @@ cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
 # model
 model = YOLO("yolo-Weights/yolov8n.pt")
 
-engine = pyttsx3.init()
-engine.say("ad astra abyssosque")
-engine.runAndWait()
-
 # object classes
 classNames = ["person", "bicycle", "car", "motorbike", "aeroplane", "bus", "train", "truck", "boat",
               "traffic light", "fire hydrant", "stop sign", "parking meter", "bench", "bird", "cat",
@@ -30,13 +26,17 @@ classNames = ["person", "bicycle", "car", "motorbike", "aeroplane", "bus", "trai
               ]
 
 
+engine = pyttsx3.init()
 while True:
     success, img = cap.read()
     results = model(img, stream=True, verbose=False)
+    text_to_speech = ''
 
     # coordinates
     for r in results:
+        
         boxes = r.boxes
+        print("result", boxes)
 
         for box in boxes:
             # bounding box
@@ -54,6 +54,8 @@ while True:
             cls = int(box.cls[0])
             #print("Class name -->", classNames[cls])
 
+            text_to_speech = text_to_speech + classNames[cls] + "in front of you"
+
             # object details
             if (y1 > cv2.CAP_PROP_FRAME_HEIGHT -10):
                 org = [x1, y2]
@@ -65,7 +67,9 @@ while True:
             thickness = 2
 
             cv2.putText(img, classNames[cls]+ " "+ str(int(confidence*100))+"%", org, font, fontScale, color, thickness)
-
+            engine.say(text_to_speech)
+            engine.runAndWait()
+    
     cv2.imshow('Webcam', img)
     if cv2.waitKey(1) == 27:
         break
