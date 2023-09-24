@@ -9,7 +9,7 @@ Once started and after being voice-activated by the user, Guiding Light uses you
 ## How we built it 💻
 Guiding Light uses the Ultralytics YOLOv8 object detection model, and retrieves video footage using OpenCV. It uses the pyttsx3 and SpeechRecognition libraries for text-to-speech and speech recognition functionalities respectively.
 
-## Challenges we ran into 🌩️ 
+## Challenges we ran into 🌩️
 We thought the hardest part would be training the model, but that was actually one of the easiest. One of the harder parts was working on the speech recognition. As we're writing this, we haven't figured out how to use voice commands to end the program using just audio input, so that should speak for itself (literally). We're also had (/am having) difficulty figuring out the colour detection aspect of the project. I (Iman) have used a method that takes the average of the RGB values from the footage and returns the most common colour from red, green, and blue, but the applications of this are limited and being able to detect the colour of a specific object would be much better. Moreover, the original service we wanted to deploy on didn't support webcam functionality, plus I overtrained the model, plus we were both sleep-deprived the entire time -- but I've heard if you love something, you'll learn to accept it, flaws and all. And aren't flaws what make us unique?
 
 ## Accomplishments that we're proud of 🎖️ 
