@@ -4,13 +4,10 @@ import math
 import numpy as np
 import pyttsx3
 import speech_recognition as sr
-import streamlit as st
-from streamlit_webrtc import webrtc_streamer
 
-st.title("Lavanya and Iman present...")
-webrtc_streamer(key="sample")
 # start webcam
 cap = cv2.VideoCapture(0)
+
 cap.set(cv2.CAP_PROP_FRAME_WIDTH,1280)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
 
@@ -74,10 +71,9 @@ def main():
     if end_program:
 
         while True:
-            test, img = cap.read()
+            success, img = cap.read()
             results = model(img, stream=True, verbose=False)
-            frame = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-            FRAME_WINDOW.image([frame])
+            
             
             #cv2.imshow('Webcam', img)
             # coordinates
@@ -125,7 +121,6 @@ def main():
                 
             cv2.imshow('Webcam', img)
             if cv2.waitKey(1) == 27:
-                st.write('Stopped')
                 break
             
         
