@@ -10,12 +10,13 @@ cap.set(cv2.CAP_PROP_FRAME_WIDTH,1280)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
 
 # model
-model = YOLO("yolo-Weights/yolov8n.pt")
+model = YOLO("runs/detect/train/weights/best.pt")
 
 engine = pyttsx3.init()
 engine.say("ad astra abyssosque")
 engine.runAndWait()
 
+"""
 # object classes
 classNames = ["person", "bicycle", "car", "motorbike", "aeroplane", "bus", "train", "truck", "boat",
               "traffic light", "fire hydrant", "stop sign", "parking meter", "bench", "bird", "cat",
@@ -28,6 +29,7 @@ classNames = ["person", "bicycle", "car", "motorbike", "aeroplane", "bus", "trai
               "microwave", "oven", "toaster", "sink", "refrigerator", "book", "clock", "vase", "scissors",
               "teddy bear", "hair drier", "toothbrush"
               ]
+"""
 
 
 while True:
@@ -52,7 +54,9 @@ while True:
 
             # class name
             cls = int(box.cls[0])
-            #print("Class name -->", classNames[cls])
+            #print("Class name -->", cls)
+
+            obj_name = r.names[box.cls[0].item()]
 
             # object details
             if (y1 > cv2.CAP_PROP_FRAME_HEIGHT -10):
@@ -64,7 +68,10 @@ while True:
             color = (255, 0, 0)
             thickness = 2
 
-            cv2.putText(img, classNames[cls]+ " "+ str(int(confidence*100))+"%", org, font, fontScale, color, thickness)
+            cv2.putText(img, obj_name+ " "+ str(int(confidence*100))+"%", org, font, fontScale, color, thickness)
+            
+            engine.say(obj_name)
+            engine.runAndWait()
 
     cv2.imshow('Webcam', img)
     if cv2.waitKey(1) == 27:
