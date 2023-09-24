@@ -38,7 +38,7 @@ while True:
 
             # class name
             cls = int(box.cls[0])
-            print("Class name -->", cls)
+            #print("Class name -->", cls)
 
             obj_name = r.names[box.cls[0].item()]
 
