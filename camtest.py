@@ -35,10 +35,13 @@ classNames = ["person", "bicycle", "car", "motorbike", "aeroplane", "bus", "trai
 while True:
     success, img = cap.read()
     results = model(img, stream=True, verbose=False)
+    text_to_speech = ''
 
     # coordinates
     for r in results:
+        
         boxes = r.boxes
+        print("result", boxes)
 
         for box in boxes:
             # bounding box
