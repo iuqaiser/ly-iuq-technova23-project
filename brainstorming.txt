@@ -28,3 +28,100 @@
 
             cv2.putText(img, classNames[cls], org, font, fontScale, color, thickness)
     '''
+ '''
+            b = img[:, :, :1]
+            g = img[:, :, 1:2]
+            r = img[:, :, 2:]
+            b_mean = np.mean(b)
+            g_mean = np.mean(g)
+            r_mean = np.mean(r)
+            if (b_mean > g_mean and b_mean > r_mean):
+                currcolor = "Blue"
+            elif (g_mean > r_mean and g_mean > b_mean):
+                currcolor = "Green"
+            elif (r_mean > g_mean and r_mean > b_mean):
+                currcolor = "Red"
+            else:
+                currcolor = "Unknown"
+            '''
+            '''
+            hsv_frame = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+            height, width, test = img.shape
+            cx = int(width / 2)
+            cy = int(height / 2)
+            # Pick pixel value
+            pixel_center = hsv_frame[cy, cx]
+            hue_value = pixel_center[0]
+
+            color = "Undefined"
+            if hue_value < 20:
+                color = "RED"
+            elif hue_value < 50:
+                color = "ORANGE"
+            elif hue_value < 60:
+                color = "YELLOW"
+            elif hue_value < 160:
+                color = "GREEN"
+            elif hue_value < 240:
+                color = "BLUE"
+            elif hue_value < 270:
+                color = "VIOLET"
+            elif hue_value < 330:
+                color = "PINK"
+            else:
+                color = "RED"
+
+            
+            pixel_center_bgr = img[cy, cx]
+            b, g, r = int(pixel_center_bgr[0]), int(pixel_center_bgr[1]), int(pixel_center_bgr[2])
+            '''
+
+            count= count + 1
+            #count2 = count2 + 1
+            if (count >= 20):        
+                engine.say( obj_name + "in frame")
+                #engine.say("Average color: " + currcolor)
+                engine.runAndWait()
+                count = 0
+                
+            '''
+            if (count2 >= 20):        
+                #engine.say(obj_name + "in front of you")
+                engine.say("Colour of center: " + color)
+                engine.runAndWait()
+                count2 = 0
+                
+            cv2.circle(img, (cx, cy), 10, (25, 25, 25), 10)
+            '''
+            cv2.imshow('Webcam', img)
+            if cv2.waitKey(1) == 27:
+                break
+            '''
+            if text == "stop" || "exit" || "end":
+                break
+            '''
+            
+        cap.release()
+        cv2.destroyAllWindows()
+    else:
+        print("cannot run")
+
+if __name__ == "__main__":
+    main()
+
+"""
+b = img[:, :, :1]
+g = img[:, :, 1:2]
+r = img[:, :, 2:]
+b_mean = np.mean(b)
+g_mean = np.mean(g)
+r_mean = np.mean(r)
+if (b_mean > g_mean and b_mean > r_mean):
+    currcolor = "Blue"
+elif (g_mean > r_mean and g_mean > b_mean):
+    currcolor = "Green"
+elif (r_mean > g_mean and r_mean > b_mean):
+    currcolor = "Red"
+else:
+    currcolor = "Unknown"
+"""

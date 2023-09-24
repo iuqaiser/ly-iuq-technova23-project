@@ -4,7 +4,11 @@ import math
 import numpy as np
 import pyttsx3
 import speech_recognition as sr
+import streamlit as st
+from streamlit_webrtc import webrtc_streamer
 
+st.title("Lavanya and Iman present...")
+webrtc_streamer(key="sample")
 # start webcam
 cap = cv2.VideoCapture(0)
 cap.set(cv2.CAP_PROP_FRAME_WIDTH,1280)
@@ -28,7 +32,7 @@ def listen_to_user_input():
         # take user input
         print("Listening...")
         audio = recognizer.listen(source)
-        recognizer.adjust_for_ambient_noise(source, duration=2)
+        recognizer.adjust_for_ambient_noise(source, duration=1)
     return audio
 
 # converting the speech to text
@@ -70,18 +74,18 @@ def main():
     if end_program:
 
         while True:
-            success, img = cap.read()
+            test, img = cap.read()
             results = model(img, stream=True, verbose=False)
+            frame = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            FRAME_WINDOW.image([frame])
             
-
-            cv2.imshow('Webcam', img)
+            #cv2.imshow('Webcam', img)
             # coordinates
             for r in results:
                 
                 boxes = r.boxes
 
                 for box in boxes:
-                    
                     # bounding box
                     x1, y1, x2, y2 = box.xyxy[0]
                     x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2) # convert to int values
@@ -110,37 +114,21 @@ def main():
                     thickness = 2
 
                     cv2.putText(img, obj_name+ " "+ str(int(confidence*100))+"%", org, font, fontScale, color, thickness)
-        
-            b = img[:, :, :1]
-            g = img[:, :, 1:2]
-            r = img[:, :, 2:]
-            b_mean = np.mean(b)
-            g_mean = np.mean(g)
-            r_mean = np.mean(r)
-            if (b_mean > g_mean and b_mean > r_mean):
-                currcolor = "Blue"
-            elif (g_mean > r_mean and g_mean > b_mean):
-                currcolor = "Green"
-            elif (r_mean > g_mean and r_mean > b_mean):
-                currcolor = "Red"
-            else:
-                currcolor = "Unknown"
 
             count= count + 1
-            count2 = count2 + 1
+            #count2 = count2 + 1
             if (count >= 20):        
-                engine.say(obj_name + "in front of you")
+                engine.say( obj_name + "in frame")
                 #engine.say("Average color: " + currcolor)
                 engine.runAndWait()
                 count = 0
-            if (count2 >= 20):        
-                #engine.say(obj_name + "in front of you")
-                engine.say("Average color of environment: " + currcolor)
-                engine.runAndWait()
-                count2 = 0
-            
+                
             cv2.imshow('Webcam', img)
-
+            if cv2.waitKey(1) == 27:
+                st.write('Stopped')
+                break
+            
+        
         cap.release()
         cv2.destroyAllWindows()
     else:
@@ -148,20 +136,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-"""
-b = img[:, :, :1]
-g = img[:, :, 1:2]
-r = img[:, :, 2:]
-b_mean = np.mean(b)
-g_mean = np.mean(g)
-r_mean = np.mean(r)
-if (b_mean > g_mean and b_mean > r_mean):
-    currcolor = "Blue"
-elif (g_mean > r_mean and g_mean > b_mean):
-    currcolor = "Green"
-elif (r_mean > g_mean and r_mean > b_mean):
-    currcolor = "Red"
-else:
-    currcolor = "Unknown"
-"""
